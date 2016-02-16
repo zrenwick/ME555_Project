@@ -5,11 +5,11 @@ function [c, opt_L] = robot_optimizer(x, y, dxdt, dydt, d2xdt2, d2ydt2)
     options = optimoptions('fmincon');
     options.Display = 'none';
     
-    L_o = [1,1]; % initial guess at robot link lengths
+    L_o = [10,10]; % initial guess at robot link lengths
     
     torq_obj = @(L) avgTorque(L, x, y, dxdt, dydt, d2xdt2, d2ydt2);
     arm_consts = @(L) armConstraints(L, x, y, dxdt, dydt, d2xdt2, d2ydt2);
     
-    [opt_L, opt_fval, exit_flag, output] = fmincon(torq_obj, time_o,[],[],[],[],0,[], arm_consts, options);
+    [opt_L, opt_fval, exit_flag, output] = fmincon(torq_obj, L_o,[],[],[],[],[0,0],[], arm_consts, options);
     c = output.constrviolation;
 end
