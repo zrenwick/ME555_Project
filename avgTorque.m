@@ -18,5 +18,5 @@ function tau_mu = avgTorque(L, x, y, dxdt, dydt, d2xdt2, d2ydt2)
         qd(:,k) = inv(J)*xd_vec;
         T_used(:,k) = idynamics(x_vec,xd_vec,xdd_vec,L);
     end
-    tau_mu = mean(mean(T_used));
+    tau_mu = mean(mean(abs(T_used)));
 end

@@ -2,7 +2,7 @@ function [c, ceq] = accelConstraint(time, ordered_x_coords, ordered_y_coords)
     pp = cscvn([ordered_x_coords; ordered_y_coords]); % [      x ;       y]; 
     der = fnder(pp);                                  % [  dx/ds ;   dy/ds];
     dder = fnder(der);                                % [d2x/ds2 ; d2y/ds2];
-    
+    %disp(time)
     %Calculation of maximum achievable trajectory velocity 
     % (ds/dt assumed constant throughout trajectory) [d2s/dt2 = 0]
     % dx/dt = (dx/ds)(ds/dt);
@@ -25,6 +25,9 @@ function [c, ceq] = accelConstraint(time, ordered_x_coords, ordered_y_coords)
     dydt = dxydt(2,:);    
     d2xdt2 = d2xydt2(1,:);
     d2ydt2 = d2xydt2(2,:);
-    [c, L] = robot_optimizer(x, y, dxdt, dydt, d2xdt2, d2ydt2);
+    keyboard
+    [c, L, avg_torque] = robot_optimizer(x, y, dxdt, dydt, d2xdt2, d2ydt2);
+    %disp(['L: ',num2str(L)]);
+    %disp(['c: ',num2str(c)])
     ceq = 0;
 end
