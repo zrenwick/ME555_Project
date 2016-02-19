@@ -1,31 +1,34 @@
 function [c, ceq] = armConstraints(L, x, y, dxdt, dydt, d2xdt2, d2ydt2, torq_obj)
-    hold on
-    plot3(L(1),L(2),torq_obj(L),'ro','MarkerSize',10);
-    keyboard
+    %hold on
+    %plot3(L(1),L(2),torq_obj(L),'ro','MarkerSize',10);
+    %keyboard
     ceq = 0;
-    Tmax1 = 1000000;
-    Tmax2 = 1000000;
+    Tmax1 = 10;
+    Tmax2 = 10;
     T_max = [Tmax1; Tmax2];
     n_points = length(x);
-    q = zeros(2,n_points);
-    qd = zeros(2,n_points);
-    qdd = zeros(2,n_points);
-    xdd_max = zeros(2,n_points);
-    for k = 1:n_points
-        x_vec = [x(k);y(k)];
-        xd_vec = [dxdt(k);dydt(k)];
-        %%%
-        q(:,k) = ik(x_vec,L);
-        if(~isreal(q(:,k)))
-            c = inf;
-            return
-        end        
-        J = jac(q(:,k),L);
-        qd(:,k) = J\xd_vec;
-        qdd(:,k) = fdynamics(x_vec,xd_vec,T_max,L);
-        xdd_max(:,k) = fkddot(q(:,k), qd(:,k), qdd(:,k),L);
+    tau_req = zeros(2,n_points);
+    dists = sqrt(x.^2 + y.^2);
+    min_reachable_dist = abs(L(1)-L(2));
+    max_reachable_dist = L(1) + L(2);
+    
+    c1 = (max(dists) - max_reachable_dist);
+    c2 = (min_reachable_dist - min(dists));
+    
+    if((c1>0)||(c2>0))
+        c3 = zeros(n_points*2,1);
+        c = [c1;c2;c3];
+        return
+    else
+        for k = 1:n_points
+            x_vec = [x(k);y(k)];
+            xd_vec = [dxdt(k);dydt(k)];
+            xdd_vec = [d2xdt2(k);d2ydt2(k)];
+            %%%
+            tau_req(:,k) = idynamics(x_vec,xd_vec,xdd_vec,L);
+        end
+        tau_const = abs(tau_req) - T_max*ones(1,n_points);
+        c3 = tau_const(:);
     end
-    xdd_needed = [d2xdt2; d2ydt2];
-    c = max(max(xdd_needed - xdd_max));
-    disp(L)
+    c = [c1;c2;c3];
 end
