@@ -25,8 +25,9 @@ function [c, ceq] = accelConstraint(time, ordered_x_coords, ordered_y_coords)
     dydt = dxydt(2,:);    
     d2xdt2 = d2xydt2(1,:);
     d2ydt2 = d2xydt2(2,:);
-    keyboard
     [c, L, avg_torque] = robot_optimizer(x, y, dxdt, dydt, d2xdt2, d2ydt2);
+    %disp(time);
+   
     %disp(['L: ',num2str(L)]);
     %disp(['c: ',num2str(c)])
     ceq = 0;
