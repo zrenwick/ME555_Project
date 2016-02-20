@@ -1,6 +1,7 @@
 function [c, ceq] = armConstraints(L, x, y, dxdt, dydt, d2xdt2, d2ydt2, torq_obj)
-    %hold on
-    %plot3(L(1),L(2),torq_obj(L),'ro','MarkerSize',10);
+    hold on
+    %plot3(L(1),L(2),torq_obj(L),'r.','MarkerSize',20);
+    %plot(L(1),L(2),'r.','MarkerSize',20);
     %keyboard
     ceq = 0;
     Tmax1 = 10;
