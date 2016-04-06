@@ -7,7 +7,7 @@ target_y = [0.2149    1.1286    6.2626    8.1635    5.6550    8.1919    5.1899  
 % x_best = 1435901
 
 % For n=12 case
-% x_best = 475297863
+% x_best = 475297863 % test_case.mat
 
 % plot(target_x, target_y,'r*')
 n_points = 12;

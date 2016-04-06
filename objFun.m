@@ -8,10 +8,11 @@ function reward = objFun(perm_num, n_points, x_coords, y_coords)
     %constraint equation for time optimizer (physical robotic constraints)
     accelcon = @(time) accelConstraint(time, ordered_x_coords, ordered_y_coords); 
     
-    options = optimoptions('fmincon','Display','iter','Algorithm','sqp','DiffMinChange',0.1,'TolFun',0.01);
+    options = optimoptions('fmincon','Display','iter','Algorithm','sqp','DiffMinChange',0.1,'TolFun',0.01,'UseParallel',true,'MaxFunEvals',1000);
     %options = optimoptions('fmincon');
     %options.Display = 'none';
     [opt_time, opt_fval, exit_flag, output] = fmincon(@abs, time_o,[],[],[],[],0,[], accelcon, options);
+    
 %     pp = cscvn([x_coords(1),x_red(order); y_coords(1), y_red(order);[0,times]]);
 %     der = fnder(pp);
 %     dder = fnder(der);

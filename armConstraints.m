@@ -1,8 +1,9 @@
-function [c, ceq] = armConstraints(L, x, y, dxdt, dydt, d2xdt2, d2ydt2, torq_obj)
+function [c, ceq] = armConstraints(X, x, y, dxdt, dydt, d2xdt2, d2ydt2)
     hold on
     %plot3(L(1),L(2),torq_obj(L),'r.','MarkerSize',20);
     %plot(L(1),L(2),'r.','MarkerSize',20);
     %keyboard
+    [L, x, y] = cen_shift(X, x, y);
     ceq = 0;
     Tmax1 = 10;
     Tmax2 = 10;
