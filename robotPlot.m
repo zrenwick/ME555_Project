@@ -5,7 +5,7 @@ function robotPlot( X, ordered_x_coords, ordered_y_coords , varargin)
         config_points = varargin{1};
     end
     L = X(1:2);
-    xc = X(3:4);
+    xc = X(3:4)';
     pp = cscvn([ordered_x_coords; ordered_y_coords]);
     fnplt(pp);
     hold on

@@ -18,7 +18,7 @@ function [c, ceq] = armConstraints(X, x, y, dxdt, dydt, d2xdt2, d2ydt2)
     c2 = (min_reachable_dist - min(dists));
     
     if((c1>0)||(c2>0))
-        c3 = zeros(n_points*2,1);
+        c3 = ones(n_points*2,1);
         c = [c1;c2;c3];
         return
     else

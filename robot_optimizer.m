@@ -21,8 +21,6 @@ function [c, opt_X, avg_torque] = robot_optimizer(x, y, dxdt, dydt, d2xdt2, d2yd
     %plot3(opt_L(1),opt_L(2),torq_obj(opt_L),'r.','MarkerSize',20);
     %plot(opt_L(1),opt_L(2),'r.','MarkerSize',20);
     %keyboard
-    c_raw = arm_consts(opt_X);
-    c = c_raw(2:end);
     %c = output.constrviolation;
     %disp(['optimal L: ',num2str(opt_L),'  C: ',num2str(max(c))]);
 end

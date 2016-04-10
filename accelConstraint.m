@@ -1,4 +1,6 @@
-function [c, ceq] = accelConstraint(time, ordered_x_coords, ordered_y_coords)
+function [c, ceq] = accelConstraint(X, ordered_x_coords, ordered_y_coords)
+    time = X(5);
+
     pp = cscvn([ordered_x_coords; ordered_y_coords]); % [      x ;       y]; 
     der = fnder(pp);                                  % [  dx/ds ;   dy/ds];
     dder = fnder(der);                                % [d2x/ds2 ; d2y/ds2];
@@ -26,10 +28,12 @@ function [c, ceq] = accelConstraint(time, ordered_x_coords, ordered_y_coords)
     d2xdt2 = d2xydt2(1,:);
     d2ydt2 = d2xydt2(2,:);
     
-    [c, opt_X, avg_torque] = robot_optimizer(x, y, dxdt, dydt, d2xdt2, d2ydt2);
-   
-    L = opt_X(1:2);
-    xc = opt_X(3:4);
+    %keyboard
+    %torq_obj = @(X) avgTorque(X, x, y, dxdt, dydt, d2xdt2, d2ydt2);
+    arm_consts = @(X) armConstraints(X, x, y, dxdt, dydt, d2xdt2, d2ydt2);    
     
+    c = arm_consts(X(1:4));
+    
+    %[c, opt_X, avg_torque] = robot_optimizer(X, x, y, dxdt, dydt, d2xdt2, d2ydt2);
     ceq = 0;
 end
