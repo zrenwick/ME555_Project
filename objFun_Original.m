@@ -24,7 +24,6 @@ function reward = objFun_Original(perm_num, n_points, x_coords, y_coords)
     len = sum(sqrt(sum(diff(fnval(pp,t_vals),1,2).^2,1)));
     [max_curv_mag,pnt_indx] = max(sqrt(accels(1,:).^2 + accels(2,:).^2));
     
-    
     t_path = sqrt((len.^2/a_max).*max_curv_mag);
     
     reward = t_path;
